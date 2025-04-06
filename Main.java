@@ -10,12 +10,12 @@ public class Main {
         // Adicionando alguns dados iniciais para teste
         inicializarDadosTeste();
 
-        System.out.println("=== Bem-vindo ao Sistema de Petshop ===");
+        System.out.println("<<< Bem-vindo ao Sistema de Petshop >>>");
         
         while (true) {
             System.out.println("\nEscolha uma opção:");
             System.out.println("1 - Login como Cliente");
-            System.out.println("2 - Login como Funcionário/Administrador");
+            System.out.println("2 - Login como Funcionário");
             System.out.println("0 - Sair");
             System.out.print("Opção: ");
             
@@ -69,6 +69,8 @@ public class Main {
             
             if (funcionarioLogado instanceof Administrador) {
                 menuAdministrador((Administrador) funcionarioLogado);
+            } else if (funcionarioLogado instanceof Veterinario) {
+                menuVeterinario((Veterinario) funcionarioLogado);
             } else {
                 menuFuncionario(funcionarioLogado);
             }
@@ -153,6 +155,43 @@ public class Main {
             }
         }
     }
+    
+    private static void menuVeterinario(Veterinario vet1) {
+        while (true) {
+            System.out.println("\n=== Menu Veterinário ===");
+            System.out.println("1 - Visualizar pacientes");
+            System.out.println("2 - Atualizar status de tratamento");
+            System.out.println("3 - Gerar relatório de tratamentos");
+            System.out.println("4 - Diagnosticar e prescrever tratamento");
+            System.out.println("0 - Logout");
+            System.out.print("Opção: ");
+
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    vet1.visualizarPacientes(sistema);
+                    break;
+                case 2:
+                    vet1.atualizarStatusTratamento(sistema);
+                    break;
+                case 3:
+                    vet1.gerarRelatorio(sistema);
+                    break;
+                case 4:
+                    vet1.diagnosticarEPrescreverTratamento(sistema);
+                    break;
+    
+                case 0:
+                    System.out.println("Logout realizado com sucesso!");
+                    return;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
+    }
+
 
     private static void menuAdministrador(Administrador admin) {
         while (true) {
@@ -275,6 +314,7 @@ public class Main {
 
     private static void inicializarDadosTeste() {
         // Adicionando clientes (agora com CPF)
+   
         Cliente cliente1 = new Cliente("João Silva", "11999999999", "11111111111", "joao", "123");
         Cliente cliente2 = new Cliente("Maria Souza", "11888888888", "22222222222", "maria", "456");
         sistema.adicionarCliente(cliente1);
@@ -282,9 +322,11 @@ public class Main {
         
         // Adicionando funcionários (já usava CPF)
         Funcionario func1 = new Funcionario("Carlos Oliveira", "33333333333", "Atendente");
+        Veterinario vet1 = new Veterinario("Dra. Lais Caldas", "12312312312", "Veterinário");
         Administrador admin1 = new Administrador("Ana Pereira", "44444444444");
         sistema.adicionarFuncionario(func1);
         sistema.adicionarFuncionario(admin1);
+        sistema.adicionarFuncionario(vet1);
         
         // Adicionando serviços
         Servico servico1 = new Servico("Banho e Tosa", 50.0);
